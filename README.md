@@ -38,7 +38,7 @@ Given a future type:
 class Future<Value, Error> { /* ... */ }
 ```
 
-An example implmenation might look something like:
+An example implemention might look something like:
 ```swift
 @discardablResult
 func assign(to binding: DataBinding<Value>) -> Future<Value, Error> {
