@@ -1,12 +1,14 @@
 # Yoke
 
-A lightweight data binding library in Swift for iOS and macOS. Great for those times
-when you want to observe changes in your view models but an FRP library like RxSwift or
-Combine  feels like overkill. Yoke provides a simple API through a property wrapper called
-`DataBinding`  which can be observed from your view controllers.
+A lightweight data binding library in Swift for iOS. Great for those times
+when you want to observe changes in your view models and bind them to UI
+but want to avoid pulling in a heavy FRP library. Yoke provides a simple API
+through a property wrapper called `DataBinding`  which can be observed from
+your view controllers.
 
-### Usage
+## Usage
 
+#### Observation
 In your view model:
 ```swift
 @DataBinding private(set) var contacts: [Contact] = []
@@ -29,6 +31,8 @@ override func viewDidLoad() {
 }
 ```
 
+#### Binding
+
 ### Using in tandem with futures
 
 You can extend your favorite `Future` library to work seemlessly with Yoke.
@@ -48,7 +52,7 @@ func assign(to binding: DataBinding<Value>) -> Future<Value, Error> {
 }
 ```
 
-Once implemented, you can make a request from your view models like so:
+Once implemented, you can make requests from your view models like so:
 ```swift
 @DataBinding var contacts: [Contact] = []
 
