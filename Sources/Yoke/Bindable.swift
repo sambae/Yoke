@@ -7,6 +7,14 @@ protocol Bindable {
     var binding: DataBinding<BindingValue> { get }
 }
 
+protocol Emittable {
+    var hasTarget: Bool { get set }
+    func addBindingTarget()
+    func emitValue()
+}
+
+typealias TwoWayBindable = Bindable & Emittable
+
 private enum AssociatedKeys {
     static var binding = "associatedkey"
     static var hasTarget = "hasTarget"
@@ -28,5 +36,23 @@ extension Bindable where Self: UIView {
 
         return binding
     }
+}
+
+extension UIControl: Emittable {
+    func addBindingTarget() {
+        addTarget(self, action: #selector(emitValue), for: .valueChanged)
+        hasTarget = true
+    }
+
+    var hasTarget: Bool {
+        get {
+            (objc_getAssociatedObject(self, &AssociatedKeys.hasTarget) as? Bool) ?? false
+        }
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.hasTarget, newValue, .OBJC_ASSOCIATION_COPY)
+        }
+    }
+
+    @objc func emitValue() {}
 }
 #endif

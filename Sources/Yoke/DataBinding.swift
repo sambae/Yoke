@@ -53,4 +53,15 @@ class DataBinding<Value> {
 
         bindingObserver?(wrappedValue)
     }
+
+    func twoWayBind<BindableType: TwoWayBindable>(with bindable: BindableType) where BindableType.BindingValue == Value {
+
+        bindable.addBindingTarget()
+
+        bindable.binding.observeBinding {
+            self.receiveFromBinding($0)
+        }
+
+        bind(with: bindable)
+    }
 }

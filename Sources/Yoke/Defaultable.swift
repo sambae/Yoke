@@ -12,4 +12,3 @@ extension String: Defaultable {
 extension Int: Defaultable {
     static var defaultValue = 0
 }
-
