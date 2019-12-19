@@ -3,14 +3,15 @@
 class DataBinding<Value> {
     typealias Observer = (Value) -> Void
 
-    var wrappedValue: Value {
-        didSet { emitValue() }
-    }
-
-    var projectedValue: DataBinding<Value> { self }
     private var observers: [Observer] = []
     private var bindingObserver: Observer?
     private var receivedFromBinding = false
+    private var emitOnObserve = true
+
+    var wrappedValue: Value {
+        didSet { emitValue() }
+    }
+    var projectedValue: DataBinding<Value> { self }
 
     init(wrappedValue initialValue: Value) {
         wrappedValue = initialValue
@@ -35,10 +36,12 @@ class DataBinding<Value> {
         wrappedValue = value
     }
 
-    func observe(_ observer: @escaping Observer) {
-        observer(wrappedValue)
-
+    func observe(waitForNextValue: Bool = false, _ observer: @escaping Observer) {
         observers.append(observer)
+
+        if !waitForNextValue {
+            observer(wrappedValue)
+        }
     }
 
     func clearObservers() {
