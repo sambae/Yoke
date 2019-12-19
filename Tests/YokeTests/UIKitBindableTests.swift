@@ -3,7 +3,7 @@ import UIKit
 import XCTest
 @testable import Yoke
 
-class UIKitExtensionTests: XCTestCase {
+final class UIKitBindableTests: XCTestCase {
     var viewModel: MockViewModel!
 
     override func setUp() {

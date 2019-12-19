@@ -1,7 +1,7 @@
 import XCTest
 @testable import Yoke
 
-final class YokeTests: XCTestCase {
+final class DataBindingTests: XCTestCase {
     func testExample() {
     }
 
