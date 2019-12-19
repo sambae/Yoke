@@ -3,16 +3,17 @@
 A lightweight data binding library in Swift for iOS. Yoke provides a simple API through a property wrapper called `@DataBinding` which can be observed from your view controllers and bound to UIKit widgets.
 
 #### Currently supports UIKit bindings for:
-| Widget   | Binding Type | Property |
-|----------|--------------|----------|
-| UISwitch | two way      | `isOn`   |
-
+| Widget   | Properties | Two Way            |
+|----------|------------|--------------------|
+| UILabel  | `text`     |                    |
+| UISwitch | `isOn`     | :white_check_mark: |
 
 ## Usage
 
 #### Binding
 In your view model:
 ```swift
+@DataBinding private(set) var title = "title"
 @DataBinding private(set) var isEnabled = false
 
 init {
@@ -24,9 +25,11 @@ init {
 
 From your view controller:
 ```swift
+let titleLabel = UILabel()
 let toggle = UISwitch()
 
-func setupSwitch() {
+func setupViews() {
+    viewModel.$title.bind(with: titleLabel)
     viewModel.$isEnabled.twoWayBind(with: toggle)
 }
 ```
