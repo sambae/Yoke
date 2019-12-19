@@ -11,4 +11,10 @@ extension UISwitch: Bindable {
         setOn(value, animated: true)
     }
 }
+
+extension UILabel: Bindable {
+    func receiveValue(_ value: String) {
+        text = value
+    }
+}
 #endif
