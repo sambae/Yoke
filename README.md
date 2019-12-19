@@ -1,13 +1,39 @@
 # Yoke
 
-A lightweight data binding library in Swift for iOS. Great for  when you want to observe
-changes in your view models and bind them to UI but also want to avoid pulling in a heavy
-FRP library. Yoke provides a simple API through a property wrapper called `DataBinding` 
-which can be observed from your view controllers.
+A lightweight data binding library in Swift for iOS. Yoke provides a simple API through a property wrapper called `@DataBinding` which can be observed from your view controllers and bound to UIKit widgets.
+
+#### Currently supports UIKit bindings for:
+| Widget   | Binding Type | Property |
+|----------|--------------|----------|
+| UISwitch | two way      | `isOn`   |
+
 
 ## Usage
 
+#### Binding
+In your view model:
+```swift
+@DataBinding private(set) var isEnabled = false
+
+init {
+    $isEnabled.observe {
+        // Do something when user toggles the bound switch
+    }
+}
+```
+
+From your view controller:
+```swift
+let toggle = UISwitch()
+
+func setupSwitch() {
+    viewModel.$isEnabled.twoWayBind(with: toggle)
+}
+```
+
 #### Observation
+`@DataBinding` can also be used as a regular observable type.
+
 In your view model:
 ```swift
 @DataBinding private(set) var contacts: [Contact] = []
@@ -30,10 +56,7 @@ override func viewDidLoad() {
 }
 ```
 
-#### Binding
-*todo*
-
-### Using in tandem with futures
+## Using in tandem with futures
 
 You can extend your favorite `Future` library to work seemlessly with Yoke.
 
@@ -42,7 +65,7 @@ Given a future type:
 class Future<Value, Error> { /* ... */ }
 ```
 
-You can add a method that assigns the success value to a `DataBinding` object's `wrappedValue`
+Add a method that assigns the success value to a `DataBinding` object's `wrappedValue` property:
 ```swift
 @discardablResult
 func assign(to binding: DataBinding<Value>) -> Future<Value, Error> {
@@ -52,7 +75,7 @@ func assign(to binding: DataBinding<Value>) -> Future<Value, Error> {
 }
 ```
 
-Once implemented, you can make requests from your view models like so:
+Once implemented, make requests from your view model:
 ```swift
 @DataBinding var contacts: [Contact] = []
 
