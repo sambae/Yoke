@@ -41,10 +41,4 @@ final class UIKitBindableTests: XCTestCase {
         XCTAssertFalse(toggle.isOn)
     }
 }
-
-class MockViewModel {
-    @DataBinding var testBool = true
-    @DataBinding var testString = ""
-}
-
 #endif

@@ -6,7 +6,10 @@ extension DataBindingTests {
     //   `swift test --generate-linuxmain`
     // to regenerate.
     static let __allTests__DataBindingTests = [
-        ("testExample", testExample),
+        ("testClearObservers", testClearObservers),
+        ("testsMultipleObservers", testsMultipleObservers),
+        ("testValueIsEmitted", testValueIsEmitted),
+        ("testWaitForNextValue", testWaitForNextValue),
     ]
 }
 
