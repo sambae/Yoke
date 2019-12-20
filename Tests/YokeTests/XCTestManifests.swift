@@ -1,3 +1,4 @@
+// swiftlint:disable identifier_name trailing_comma
 #if !canImport(ObjectiveC)
 import XCTest
 

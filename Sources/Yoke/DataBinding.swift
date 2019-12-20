@@ -1,4 +1,3 @@
-
 @propertyWrapper
 class DataBinding<Value> {
     typealias Observer = (Value) -> Void
@@ -57,7 +56,8 @@ class DataBinding<Value> {
         bindingObserver?(wrappedValue)
     }
 
-    func twoWayBind<BindableType: TwoWayBindable>(with bindable: BindableType) where BindableType.BindingValue == Value {
+    func twoWayBind<BindableType: TwoWayBindable>(with bindable: BindableType)
+    where BindableType.BindingValue == Value {
 
         bindable.addBindingTarget()
 

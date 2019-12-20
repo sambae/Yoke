@@ -1,5 +1,7 @@
 # Yoke
 
+[Build Status](https://github.com/sambae/Yoke/workflows/master/badge.svg)
+
 A lightweight data binding library in Swift for iOS. Yoke provides a simple API through a property wrapper called `@DataBinding` which can be observed from your view controllers and bound to UIKit widgets.
 
 #### Currently supports UIKit bindings for:

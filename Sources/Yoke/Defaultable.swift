@@ -1,4 +1,3 @@
-
 protocol Defaultable {
     static var defaultValue: Self { get }
 }
