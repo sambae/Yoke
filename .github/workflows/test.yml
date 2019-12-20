@@ -7,12 +7,12 @@ on:
   pull_request:
     branches:
       - master
-  jobs:
-    test:
-      name: Test
-      runs-on: macOS-latest
-      steps:
-        - name: Checkout
-          uses: actions/checkout@v1
-        - name: Build and test
-          run: xcodebuild clean test -destination 'name=iPhone 11 Pro' -scheme 'Yoke'
+jobs:
+  test:
+    name: Test
+    runs-on: macOS-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Build and test
+        run: xcodebuild clean test -destination 'name=iPhone 11 Pro' -scheme 'Yoke'
