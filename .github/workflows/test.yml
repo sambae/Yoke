@@ -15,4 +15,4 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
       - name: Build and test
-        run: xcodebuild clean test -destination 'name=iPhone 11 Pro' -scheme 'Yoke'
+        run: make clean_test
