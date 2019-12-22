@@ -11,9 +11,11 @@ extension UISwitch: Bindable {
     }
 }
 
-extension UILabel: Bindable {
-    func receiveValue(_ value: String) {
-        text = value
+extension UIButton: Bindable {
+    override func emitValue() {
+        binding.wrappedValue = .tap
     }
+
+    func receiveValue(_ value: Tap) {}
 }
 #endif
