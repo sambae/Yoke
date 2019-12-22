@@ -1,5 +1,5 @@
 protocol Bindable {
-    associatedtype BindingValue: Defaultable
+    associatedtype BindingValue: DefaultValue
 
     func receiveValue(_ value: BindingValue)
 
@@ -15,7 +15,7 @@ protocol Emittable {
 typealias TwoWayBindable = Bindable & Emittable
 
 private enum AssociatedKeys {
-    static var binding = "associatedkey"
+    static var binding = "dataBinding"
     static var hasTarget = "hasTarget"
 }
 
@@ -39,7 +39,13 @@ extension Bindable where Self: UIView {
 
 extension UIControl: Emittable {
     func addBindingTarget() {
-        addTarget(self, action: #selector(emitValue), for: .valueChanged)
+        guard !hasTarget else { return }
+
+        if let `self` = self as? UIButton {
+            addTarget(self, action: #selector(emitValue), for: .touchUpInside)
+        } else {
+            addTarget(self, action: #selector(emitValue), for: .valueChanged)
+        }
         hasTarget = true
     }
 

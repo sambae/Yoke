@@ -18,11 +18,26 @@ final class UIKitBindableTests: XCTestCase {
         viewModel = nil
     }
 
+    func testUIViewBinding() {
+        let view = UIView()
+        viewModel.testBool = false
+
+        viewModel.$testBool
+            .bind(to: \.isHidden, on: view)
+        XCTAssertEqual(view.isHidden, false)
+
+        viewModel.testBool = true
+        XCTAssertEqual(view.isHidden, true)
+    }
+
     func testUILabelBinding() {
         let label = UILabel()
         XCTAssertNil(label.text)
 
-        viewModel.$testString.bind(with: label)
+        viewModel.$testString
+            .map { Optional($0) }
+            .bind(to: \.text, on: label)
+
         XCTAssertEqual(label.text, "")
 
         let newString = "new string"
@@ -39,6 +54,18 @@ final class UIKitBindableTests: XCTestCase {
 
         viewModel.testBool = false
         XCTAssertFalse(toggle.isOn)
+    }
+
+    func testUIButtonBinding() {
+        let button = UIButton()
+        viewModel.testBool = false
+
+        viewModel.$testBool
+            .bind(to: \.isEnabled, on: button)
+        XCTAssertEqual(button.isEnabled, false)
+
+        viewModel.testBool = true
+        XCTAssertEqual(button.isEnabled, true)
     }
 }
 #endif
