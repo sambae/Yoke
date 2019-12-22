@@ -104,4 +104,28 @@ final class DataBindingTests: XCTestCase {
         viewModel.testBool = false
         XCTAssertEqual(stringResult, expectedResult)
     }
+
+    func testAlso() {
+        var sideEffectString = ""
+        let expectedSideEffectString = "SIDE EFFECT"
+        var observing = !viewModel.testBool
+
+        viewModel.$testBool
+            .also { _ in sideEffectString = expectedSideEffectString }
+            .observe { observing = $0 }
+
+        XCTAssertEqual(sideEffectString, expectedSideEffectString)
+        XCTAssertEqual(observing, viewModel.testBool)
+    }
+
+    func testBindWithKVC() {
+        let kvcObject = MockKeyValueCodable()
+        let expectedString = "great success!"
+
+        viewModel.$testString.bind(to: \.string, on: kvcObject)
+        XCTAssertEqual(kvcObject.string, "")
+
+        viewModel.testString = expectedString
+        XCTAssertEqual(kvcObject.string, expectedString)
+    }
 }
