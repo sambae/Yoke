@@ -49,7 +49,7 @@ final class DataBindingTests: XCTestCase {
         XCTAssertEqual(result, !viewModel.testBool)
     }
 
-    func testsMultipleObservers() {
+    func testMultipleObservers() {
         var result1: Bool?
         var result2: Bool?
         var result3: Bool?
@@ -77,5 +77,31 @@ final class DataBindingTests: XCTestCase {
         XCTAssertEqual(result1, viewModel.testBool)
         XCTAssertEqual(result2, viewModel.testBool)
         XCTAssertEqual(result3, viewModel.testBool)
+    }
+
+    func testMap() {
+        var stringResult = ""
+        let expectedResult = "true"
+
+        viewModel.$testBool
+            .map { "\($0)" }
+            .observe { stringResult = $0 }
+
+        XCTAssertEqual(stringResult, expectedResult)
+    }
+
+    func testFlatMap() {
+        var stringResult = ""
+        let expectedResult = "result"
+
+        viewModel.$testBool
+            .flatMap { _ in self.viewModel.$testString }
+            .observe { stringResult = $0 }
+
+        viewModel.testString = expectedResult
+        XCTAssertEqual(stringResult, "")
+
+        viewModel.testBool = false
+        XCTAssertEqual(stringResult, expectedResult)
     }
 }
