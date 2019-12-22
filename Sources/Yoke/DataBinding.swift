@@ -67,4 +67,20 @@ class DataBinding<Value> {
 
         bind(with: bindable)
     }
+
+    func map<NewValue>(_ transform: @escaping (Value) -> NewValue) -> DataBinding<NewValue> {
+        return flatMap {
+            DataBinding<NewValue>(wrappedValue: transform($0))
+        }
+    }
+
+    func flatMap<NewValue>(_ transform: @escaping (Value) -> DataBinding<NewValue>) -> DataBinding<NewValue> {
+        let newBinding = DataBinding<NewValue>(wrappedValue: transform(wrappedValue).wrappedValue)
+
+        observe {
+            newBinding.wrappedValue = transform($0).wrappedValue
+        }
+
+        return newBinding
+    }
 }
