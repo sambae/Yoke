@@ -2,10 +2,10 @@
 class DataBinding<Value> {
     typealias Observer = (Value) -> Void
 
-    private var observers: [Observer] = []
-    private var bindingObserver: Observer?
-    private var receivedFromBinding = false
-    private var emitOnObserve = true
+    internal var observers: [Observer] = []
+    internal var bindingObserver: Observer?
+    internal var receivedFromBinding = false
+    internal var emitOnObserve = true
 
     var wrappedValue: Value {
         didSet { emitValue() }
@@ -16,7 +16,7 @@ class DataBinding<Value> {
         wrappedValue = initialValue
     }
 
-    private func emitValue() {
+    internal func emitValue() {
         observers.forEach { $0(wrappedValue) }
 
         if !receivedFromBinding {
@@ -26,11 +26,11 @@ class DataBinding<Value> {
         receivedFromBinding = false
     }
 
-    private func observeBinding(_ observer: @escaping Observer) {
+    internal func observeBinding(_ observer: @escaping Observer) {
         bindingObserver = observer
     }
 
-    private func receiveFromBinding(_ value: Value) {
+    internal func receiveFromBinding(_ value: Value) {
         receivedFromBinding = true
         wrappedValue = value
     }
@@ -45,42 +45,5 @@ class DataBinding<Value> {
 
     func clearObservers() {
         observers = []
-    }
-
-    func bind<BindableType: Bindable>(with bindable: BindableType) where BindableType.BindingValue == Value {
-
-        observeBinding {
-            bindable.binding.receiveFromBinding($0)
-        }
-
-        bindingObserver?(wrappedValue)
-    }
-
-    func twoWayBind<BindableType: TwoWayBindable>(with bindable: BindableType)
-    where BindableType.BindingValue == Value {
-
-        bindable.addBindingTarget()
-
-        bindable.binding.observeBinding {
-            self.receiveFromBinding($0)
-        }
-
-        bind(with: bindable)
-    }
-
-    func map<NewValue>(_ transform: @escaping (Value) -> NewValue) -> DataBinding<NewValue> {
-        return flatMap {
-            DataBinding<NewValue>(wrappedValue: transform($0))
-        }
-    }
-
-    func flatMap<NewValue>(_ transform: @escaping (Value) -> DataBinding<NewValue>) -> DataBinding<NewValue> {
-        let newBinding = DataBinding<NewValue>(wrappedValue: transform(wrappedValue).wrappedValue)
-
-        observe {
-            newBinding.wrappedValue = transform($0).wrappedValue
-        }
-
-        return newBinding
     }
 }
