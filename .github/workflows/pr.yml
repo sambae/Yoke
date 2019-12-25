@@ -1,4 +1,4 @@
-name: PR
+name: pr
 
 on: pull_request
 jobs:
@@ -9,7 +9,7 @@ jobs:
       - name: GitHub Action for SwiftLint
         uses: norio-nomura/action-swiftlint@3.0.1
   test:
-    name: Test
+    name: test
     runs-on: macOS-latest
     steps:
       - name: Checkout
