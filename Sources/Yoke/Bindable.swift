@@ -22,7 +22,7 @@ private enum AssociatedKeys {
 #if !os(macOS)
 import UIKit
 
-extension Bindable where Self: UIView {
+extension Bindable where Self: UIControl {
     var binding: DataBinding<BindingValue> {
         if let binding = objc_getAssociatedObject(self, &AssociatedKeys.binding) as? DataBinding<BindingValue> {
             return binding
@@ -34,6 +34,14 @@ extension Bindable where Self: UIView {
         objc_setAssociatedObject(self, &AssociatedKeys.binding, binding, .OBJC_ASSOCIATION_RETAIN)
 
         return binding
+    }
+}
+
+extension Bindable where Self: Emittable {
+    func bind(with otherBinding: DataBinding<BindingValue>) {
+        addBindingTarget()
+
+        otherBinding.twoWayBind(with: binding)
     }
 }
 

@@ -24,25 +24,20 @@ extension DataBinding {
         }
     }
 
-    func bind<BindableType: Bindable>(with bindable: BindableType) where BindableType.BindingValue == Value {
-
+    func bind(with binding: DataBinding<Value>) {
         observeBinding {
-            bindable.binding.receiveFromBinding($0)
+            binding.receiveFromBinding($0)
         }
 
         bindingObserver?(wrappedValue)
     }
 
-    func twoWayBind<BindableType: TwoWayBindable>(with bindable: BindableType)
-    where BindableType.BindingValue == Value {
-
-        bindable.addBindingTarget()
-
-        bindable.binding.observeBinding {
+    func twoWayBind(with binding: DataBinding<Value>) {
+        binding.observeBinding {
             self.receiveFromBinding($0)
         }
 
-        bind(with: bindable)
+        bind(with: binding)
     }
 
     @discardableResult
