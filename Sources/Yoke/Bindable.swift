@@ -52,7 +52,7 @@ extension UIControl: Emittable {
         if let `self` = self as? UIButton {
             addTarget(self, action: #selector(emitValue), for: .touchUpInside)
         } else {
-            addTarget(self, action: #selector(emitValue), for: .valueChanged)
+            addTarget(self, action: #selector(emitValue), for: [.valueChanged, .editingChanged])
         }
         hasTarget = true
     }
