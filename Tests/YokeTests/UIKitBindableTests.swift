@@ -49,7 +49,7 @@ final class UIKitBindableTests: XCTestCase {
         let toggle = UISwitch()
         XCTAssertFalse(toggle.isOn)
 
-        viewModel.$testBool.bind(with: toggle)
+        toggle.bind(with: viewModel.$testBool)
         XCTAssertTrue(toggle.isOn)
 
         viewModel.testBool = false

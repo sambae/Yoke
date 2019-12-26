@@ -41,7 +41,7 @@ func setupViews() {
         .map { Optional($0) }
         .bind(to: \.text, on: titleLabel)
 
-    viewModel.$isEnabled.twoWayBind(with: toggle)
+    toggle.bind(with: viewModel.$isEnabled)
 }
 ```
 
