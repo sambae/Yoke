@@ -18,4 +18,14 @@ extension UIButton: Bindable {
 
     func receiveValue(_ value: Tap) {}
 }
+
+extension UITextField: Bindable {
+    override func emitValue() {
+        binding.wrappedValue = text ?? ""
+    }
+
+    func receiveValue(_ value: String) {
+        text = value
+    }
+}
 #endif

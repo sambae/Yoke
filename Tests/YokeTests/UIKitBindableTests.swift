@@ -67,5 +67,19 @@ final class UIKitBindableTests: XCTestCase {
         viewModel.testBool = true
         XCTAssertEqual(button.isEnabled, true)
     }
+
+    func testUITextFieldBinding() {
+        let textField = UITextField()
+        XCTAssertEqual(textField.text, "")
+
+        let startingString = "starting string"
+        viewModel.testString = startingString
+        textField.bind(with: viewModel.$testString)
+        XCTAssertEqual(textField.text, startingString)
+
+        let newString = "new string"
+        viewModel.testString = newString
+        XCTAssertEqual(textField.text, newString)
+    }
 }
 #endif
